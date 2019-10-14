@@ -13,7 +13,7 @@ api.post('/user', UserController.create);
 api.put('/user/update/:id', md_auth.ensureAuth, UserController.update);
 api.post('/user/upload-image/:id', [md_auth.ensureAuth, md_upload], UserController.uploadImagen);
 api.get('/user/get-image/:imageFile', UserController.getImagen);
-api.get('/user/:page?', md_auth.ensureAuth, UserController.findByAll);
+api.get('/users/:page?', md_auth.ensureAuth, UserController.findByAll);
 api.get('/user/:id', md_auth.ensureAuth, UserController.findById);
 api.delete('/user/:id', md_auth.ensureAuth, UserController.destroy);
 
