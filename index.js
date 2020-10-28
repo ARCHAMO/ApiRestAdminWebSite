@@ -1,8 +1,7 @@
 'use strict'
 
 var mongoose = require('mongoose');
-
-var urlDbNube = 'mongodb+srv://Solman:Solman820901*!@solmaningenieria-atxkp.mongodb.net/test?retryWrites=true&w=majority';
+var urlDbNube = 'mongodb+srv://Solman:Solman820901*!@produccion.atxkp.mongodb.net/produccion?retryWrites=true&w=majority';
 
 var urlDbLocal = 'mongodb://localhost:27017/desarrollo';
 var app = require('./app');

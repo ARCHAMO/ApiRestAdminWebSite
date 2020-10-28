@@ -7,8 +7,9 @@ var app = express();
 
 // Cargamos las rutas
 var userRouters = require('./routes/UserRouters');
+var sliderRouters = require('./routes/SliderRouters');
 
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Configuramos las cabeceras http
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
 
 // Rutas base
 app.use('/api', userRouters);
+app.use('/api', sliderRouters);
 
 module.exports = app;
 

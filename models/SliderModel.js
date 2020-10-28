@@ -10,6 +10,7 @@ var SliderFrontSchema = Schema({
     rutaBoton: String,
     iconoBoton: String,
     urlImagen: String,
+    orden: Number,
     userCreacionId: { type: Schema.Types.ObjectId, ref: 'User' },
     userModificacionId: { type: Schema.Types.ObjectId, ref: 'User' }
 },
