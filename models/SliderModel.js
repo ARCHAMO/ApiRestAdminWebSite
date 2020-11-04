@@ -2,8 +2,9 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var mongoosePaginate = require('mongoose-paginate');
 
-var SliderFrontSchema = Schema({
+var SliderSchema = Schema({
     titulo: String,
     subTitulo: String,
     textoBoton: String,
@@ -21,5 +22,6 @@ var SliderFrontSchema = Schema({
         }
     }
 );
+SliderSchema.plugin(mongoosePaginate);
 
-module.exports = mongoose.model('SliderFront', SliderFrontSchema);
+module.exports = mongoose.model('SliderFront', SliderSchema);

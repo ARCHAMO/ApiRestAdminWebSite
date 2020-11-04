@@ -106,28 +106,31 @@ function getImagen(req, res) {
 }
 
 function findByAll(req, res) {
-    let page;
     if (req.params.page) {
-        page = req.params.page;
+        var page = req.params.page;
     } else {
-        page = 1;
+        var page = 1;
     }
     let itemsPerPage = 10;
 
-    SliderModel.find().sort('orden').paginate(page, itemsPerPage, function (error, sliders, total) {
+    SliderModel.paginate({}, {}, function (error, result) {
         if (error) {
-            res.status(500).send({ message: 'Error en la peticion' });
+            res.status(500).send({
+                success: false,
+                message: 'Error en la peticion'
+            });
         } else {
-            if (!sliders) {
-                res.status(404).send({ message: 'No hay slider registrados' });
-            } else {
-                return res.status(200).send({
-                    items: total,
-                    sliders: sliders
+            if (!result) {
+                res.status(404).send({
+                    success: false,
+                    message: 'No hay slider registrados'
                 });
+            } else {
+                result.success = true;
+                return res.status(200).send(result);
             }
         }
-    })
+    });
 }
 
 function findById(req, res) {

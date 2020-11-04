@@ -13,7 +13,14 @@ var UserSchema = Schema({
     password: String,
     image: String,
     role: String
-});
+},
+    {
+        timestamps: {
+            createdAt: 'fechaCreacion',
+            updatedAt: 'fechaModificacion'
+        }
+    }
+);
 UserSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('User', UserSchema);
