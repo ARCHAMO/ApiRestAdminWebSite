@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var mongoosePaginate = require('mongoose-paginate');
 
 var ServiceSchema = Schema({
     titulo: String,
@@ -21,5 +22,6 @@ var ServiceSchema = Schema({
         }
     }
 );
+ServiceSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Service', ServiceSchema);

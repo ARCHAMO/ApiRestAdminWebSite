@@ -2,34 +2,36 @@
 
 let fs = require('fs');
 let path = require('path');
-let SliderModel = require('../models/SliderModel');
+let ServiceModel = require('../models/ServiceModel');
 
 function create(req, res) {
-    let slider = new SliderModel();
+    let service = new ServiceModel();
     let params = req.body;
 
-    slider.titulo = params.titulo;
-    slider.subTitulo = params.subTitulo;
-    slider.textoBoton = params.textoBoton;
-    slider.rutaBoton = params.rutaBoton;
-    slider.iconoBoton = params.iconoBoton;
-    slider.orden = params.orden;
+    service.titulo = params.titulo;
+    service.subTitulo = params.subTitulo;
+    service.textoBoton = params.textoBoton;
+    service.rutaBoton = params.rutaBoton;
+    service.iconoBoton = params.iconoBoton;
+    service.icono = params.icono;
+    service.urlImagen = params.urlImagen;
+    service.orden = params.orden;
 
     // Se realizan todas las validaciones necesarias
-    slider.save((err, objectStored) => {
+    service.save((err, objectStored) => {
         if (err) {
             console.log(err);
             res.status(500).send({
-                message: 'Error al guardar el slider'
+                message: 'Error al guardar el servicio'
             });
         } else {
             if (!objectStored) {
                 res.status(404).send({
-                    message: 'No se ha registrado el slider'
+                    message: 'No se ha registrado el servicio'
                 });
             } else {
                 res.status(200).send({
-                    slider: objectStored
+                    service: objectStored
                 });
             }
         }
@@ -40,19 +42,19 @@ function update(req, res) {
     let id = req.params.id;
     let updateParams = req.body;
 
-    SliderModel.findByIdAndUpdate(id, updateParams, (err, objectUpdate) => {
+    ServiceModel.findByIdAndUpdate(id, updateParams, (err, objectUpdate) => {
         if (err) {
             res.status(500).send({
-                message: 'Error al actualizar el slider'
+                message: 'Error al actualizar el servicio'
             });
         } else {
             if (!objectUpdate) {
                 res.status(404).send({
-                    message: 'No se ha podido actualizar el slider'
+                    message: 'No se ha podido actualizar el servicio'
                 });
             } else {
                 res.status(200).send({
-                    slider: objectUpdate
+                    service: objectUpdate
                 });
             }
         }
@@ -71,14 +73,14 @@ function uploadImagen(req, res) {
         let fileExt = extSplit[1];
 
         if (fileExt.toLowerCase() == 'png' || fileExt.toLowerCase() == 'jpg' || fileExt.toLowerCase() == 'gif') {
-            SliderModel.findByIdAndUpdate(id, { image: fileName }, (err, objectUpdate) => {
+            ServiceModel.findByIdAndUpdate(id, { image: fileName }, (err, objectUpdate) => {
                 if (!objectUpdate) {
                     res.status(404).send({
-                        message: 'No se ha podido actualizar el slider'
+                        message: 'No se ha podido actualizar el servicio'
                     });
                 } else {
                     res.status(200).send({
-                        slider: objectUpdate,
+                        service: objectUpdate,
                         image: fileName
                     });
                 }
@@ -95,7 +97,7 @@ function uploadImagen(req, res) {
 
 function getImagen(req, res) {
     let imageFile = req.params.imageFile;
-    let pathFile = './uploads/slider/' + imageFile;
+    let pathFile = './uploads/service/' + imageFile;
     fs.exists(pathFile, function (exists) {
         if (exists) {
             res.sendFile(path.resolve(pathFile));
@@ -113,7 +115,7 @@ function findByAll(req, res) {
     }
     let itemsPerPage = 10;
 
-    SliderModel.paginate({}, {}, function (error, result) {
+    ServiceModel.paginate({}, {}, function (error, result) {
         if (error) {
             res.status(500).send({
                 success: false,
@@ -123,7 +125,7 @@ function findByAll(req, res) {
             if (!result) {
                 res.status(404).send({
                     success: false,
-                    message: 'No hay slider registrados'
+                    message: 'No hay servicios registrados'
                 });
             } else {
                 result.success = true;
@@ -136,14 +138,14 @@ function findByAll(req, res) {
 function findById(req, res) {
     let id = req.params.id;
 
-    SliderModel.findById(id, (error, slider) => {
+    ServiceModel.findById(id, (error, slider) => {
         if (error) {
             res.status(500).send({ message: 'Error en la peticion.' });
         } else {
             if (!slider) {
                 res.status(404).send({ message: 'El slider no existe.' });
             } else {
-                res.status(200).send({ slider });
+                res.status(500).send({ slider });
             }
         }
     });
@@ -152,12 +154,12 @@ function findById(req, res) {
 function destroy(req, res) {
     let id = req.params.id;
 
-    SliderModel.findByIdAndRemove(id, function (error, objectRemove) {
+    ServiceModel.findByIdAndRemove(id, function (error, objectRemove) {
         if (error) {
-            res.status(500).send({ message: 'Error eliminando el slider.' });
+            res.status(500).send({ message: 'Error eliminando el servicio.' });
         } else {
             if (!objectRemove) {
-                res.status(404).send({ message: 'El slider no existe.' });
+                res.status(404).send({ message: 'El servicio no existe.' });
             } else {
                 res.status(200).send({ objectRemove });
             }

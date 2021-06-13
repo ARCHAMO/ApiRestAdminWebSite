@@ -8,6 +8,10 @@ var app = express();
 // Cargamos las rutas
 var userRouters = require('./routes/UserRouters');
 var sliderRouters = require('./routes/SliderRouters');
+var serviceRouters = require('./routes/ServiceRouters');
+var companyRouters = require('./routes/CompanyRouters');
+var typeProjectRouters = require('./routes/TypeProjectRouters');
+var prototiposRouters = require('./routes/PrototiposRouters');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -24,6 +28,12 @@ app.use((req, res, next) => {
 // Rutas base
 app.use('/api', userRouters);
 app.use('/api', sliderRouters);
+app.use('/api', serviceRouters);
+app.use('/api', companyRouters);
+app.use('/api', typeProjectRouters);
+
+
+app.use('/api', prototiposRouters);
 
 module.exports = app;
 

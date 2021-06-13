@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var mongoosePaginate = require('mongoose-paginate');
 
 var TypeProjectSchema = Schema({
     nombre: String,
@@ -15,5 +16,6 @@ var TypeProjectSchema = Schema({
         }
     }
 );
+TypeProjectSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('TypeProject', TypeProjectSchema);

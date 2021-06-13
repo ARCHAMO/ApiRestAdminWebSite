@@ -2,34 +2,39 @@
 
 let fs = require('fs');
 let path = require('path');
-let SliderModel = require('../models/SliderModel');
+let CompanyModel = require('../models/CompanyModel');
 
 function create(req, res) {
-    let slider = new SliderModel();
+    let company = new CompanyModel();
     let params = req.body;
 
-    slider.titulo = params.titulo;
-    slider.subTitulo = params.subTitulo;
-    slider.textoBoton = params.textoBoton;
-    slider.rutaBoton = params.rutaBoton;
-    slider.iconoBoton = params.iconoBoton;
-    slider.orden = params.orden;
+    company.razonSocial = params.razonSocial;
+    company.nit = params.nit;
+    company.mision = params.mision
+    company.vision = params.vision;
+    company.telefono = params.telefono;
+    company.email = params.email;
+    company.celular = params.celular;
+    company.direccion = params.direccion;
+    company.tituloBienvenida = params.tituloBienvenida;
+    company.descripcionBienvenida = params.descripcionBienvenida;
+    company.logo = params.logo;
 
     // Se realizan todas las validaciones necesarias
-    slider.save((err, objectStored) => {
+    company.save((err, objectStored) => {
         if (err) {
             console.log(err);
             res.status(500).send({
-                message: 'Error al guardar el slider'
+                message: 'Error al guardar la compañia'
             });
         } else {
             if (!objectStored) {
                 res.status(404).send({
-                    message: 'No se ha registrado el slider'
+                    message: 'No se ha registrado la compañia'
                 });
             } else {
                 res.status(200).send({
-                    slider: objectStored
+                    service: objectStored
                 });
             }
         }
@@ -40,19 +45,19 @@ function update(req, res) {
     let id = req.params.id;
     let updateParams = req.body;
 
-    SliderModel.findByIdAndUpdate(id, updateParams, (err, objectUpdate) => {
+    CompanyModel.findByIdAndUpdate(id, updateParams, (err, objectUpdate) => {
         if (err) {
             res.status(500).send({
-                message: 'Error al actualizar el slider'
+                message: 'Error al actualizar la compañia'
             });
         } else {
             if (!objectUpdate) {
                 res.status(404).send({
-                    message: 'No se ha podido actualizar el slider'
+                    message: 'No se ha podido actualizar la compañia'
                 });
             } else {
                 res.status(200).send({
-                    slider: objectUpdate
+                    service: objectUpdate
                 });
             }
         }
@@ -71,14 +76,14 @@ function uploadImagen(req, res) {
         let fileExt = extSplit[1];
 
         if (fileExt.toLowerCase() == 'png' || fileExt.toLowerCase() == 'jpg' || fileExt.toLowerCase() == 'gif') {
-            SliderModel.findByIdAndUpdate(id, { image: fileName }, (err, objectUpdate) => {
+            CompanyModel.findByIdAndUpdate(id, { image: fileName }, (err, objectUpdate) => {
                 if (!objectUpdate) {
                     res.status(404).send({
-                        message: 'No se ha podido actualizar el slider'
+                        message: 'No se ha podido actualizar la compañia'
                     });
                 } else {
                     res.status(200).send({
-                        slider: objectUpdate,
+                        service: objectUpdate,
                         image: fileName
                     });
                 }
@@ -95,7 +100,7 @@ function uploadImagen(req, res) {
 
 function getImagen(req, res) {
     let imageFile = req.params.imageFile;
-    let pathFile = './uploads/slider/' + imageFile;
+    let pathFile = './uploads/company/' + imageFile;
     fs.exists(pathFile, function (exists) {
         if (exists) {
             res.sendFile(path.resolve(pathFile));
@@ -113,7 +118,7 @@ function findByAll(req, res) {
     }
     let itemsPerPage = 10;
 
-    SliderModel.paginate({}, {}, function (error, result) {
+    CompanyModel.paginate({}, {}, function (error, result) {
         if (error) {
             res.status(500).send({
                 success: false,
@@ -123,7 +128,7 @@ function findByAll(req, res) {
             if (!result) {
                 res.status(404).send({
                     success: false,
-                    message: 'No hay slider registrados'
+                    message: 'No hay compañias registradas'
                 });
             } else {
                 result.success = true;
@@ -136,14 +141,14 @@ function findByAll(req, res) {
 function findById(req, res) {
     let id = req.params.id;
 
-    SliderModel.findById(id, (error, slider) => {
+    CompanyModel.findById(id, (error, company) => {
         if (error) {
             res.status(500).send({ message: 'Error en la peticion.' });
         } else {
-            if (!slider) {
-                res.status(404).send({ message: 'El slider no existe.' });
+            if (!company) {
+                res.status(404).send({ message: 'La compañia no existe.' });
             } else {
-                res.status(200).send({ slider });
+                res.status(200).send({ company });
             }
         }
     });
@@ -152,12 +157,12 @@ function findById(req, res) {
 function destroy(req, res) {
     let id = req.params.id;
 
-    SliderModel.findByIdAndRemove(id, function (error, objectRemove) {
+    CompanyModel.findByIdAndRemove(id, function (error, objectRemove) {
         if (error) {
-            res.status(500).send({ message: 'Error eliminando el slider.' });
+            res.status(500).send({ message: 'Error eliminando la compañia.' });
         } else {
             if (!objectRemove) {
-                res.status(404).send({ message: 'El slider no existe.' });
+                res.status(404).send({ message: 'La compañia no existe.' });
             } else {
                 res.status(200).send({ objectRemove });
             }

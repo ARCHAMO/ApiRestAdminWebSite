@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var mongoosePaginate = require('mongoose-paginate');
 
 var CompanySchema = Schema({
     razonSocial: String,
@@ -25,5 +26,6 @@ var CompanySchema = Schema({
         }
     }
 );
+CompanySchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Company', CompanySchema);
